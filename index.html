@@ -1,1 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Students Expo — Innovation Challenge Judge Scoring Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #0D1B4B; --blue: #1A3A8F; --mid: #2756C5;
+    --light-blue: #D6E4FF; --pale: #EEF4FF; --gold: #C9A84C;
+    --white: #FFFFFF; --text: #1C2B4A; --muted: #6B7A99;
+    --border: #C8D8F0; --alt: #F5F8FF;
+    --g-out: #1B6B3A; --g-str: #1A5A9A; --g-sat: #7A5900;
+    --g-dev: #8A3A0A; --g-bad: #8A0A0A;
+  }
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body { margin: 0; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; width: 210mm; }
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #CDD5E8;
+    display: flex; justify-content: center;
+    padding: 20px; min-height: 100vh;
+  }
+  .page {
+    width: 794px; background: var(--white);
+    border-radius: 6px; box-shadow: 0 12px 48px rgba(13,27,75,0.18);
+    overflow: hidden; display: flex; flex-direction: column;
+  }
 
+  /* HEADER */
+  .hdr {
+    background: linear-gradient(120deg, var(--navy) 0%, var(--blue) 55%, #2756C5 100%);
+    padding: 14px 26px 12px; position: relative; overflow: hidden;
+  }
+  .hdr::after {
+    content: ''; position: absolute; right: -40px; top: -40px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(255,255,255,0.04); pointer-events: none;
+  }
+  .hdr-top { display: flex; align-items: flex-start; justify-content: space-between; position: relative; z-index: 1; }
+  .hdr h1 { font-family: 'DM Serif Display', serif; color: #fff; font-size: 18px; line-height: 1.2; }
+  .hdr h1 em { color: var(--gold); font-style: normal; }
+  .hdr-sub { font-size: 8.5px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .badge { background: var(--gold); color: var(--navy); font-size: 8.5px; font-weight: 700; letter-spacing: 0.8px; padding: 3px 9px; border-radius: 3px; white-space: nowrap; text-transform: uppercase; }
+  .hdr-fields { display: flex; gap: 14px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 8px; position: relative; z-index: 1; }
+  .field { flex: 1; }
+  .field-lbl { font-size: 6.5px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; margin-bottom: 2px; }
+  .field-line { border-bottom: 1.5px solid rgba(255,255,255,0.35); height: 22px; }
+
+  /* STRIP */
+  .strip { display: flex; background: var(--pale); border-bottom: 1px solid var(--border); }
+  .strip-item { flex: 1; text-align: center; padding: 5px 3px; border-right: 1px solid var(--border); }
+  .strip-item:last-child { border-right: none; }
+  .strip-pts { font-size: 13px; font-weight: 700; color: var(--blue); line-height: 1; }
+  .strip-lbl { font-size: 6px; color: var(--muted); margin-top: 2px; font-weight: 500; line-height: 1.3; }
+
+  /* LEGEND */
+  .legend { display: flex; align-items: center; gap: 10px; padding: 4px 18px; background: #fff; border-bottom: 1px solid var(--border); font-size: 6.8px; }
+  .legend-title { font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 2px; }
+  .lg { display: flex; align-items: center; gap: 3px; font-weight: 600; }
+  .lg-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* TABLE */
+  .wrap { padding: 8px 18px 10px; flex: 1; }
+  table { width: 100%; border-collapse: collapse; font-size: 7.3px; line-height: 1.35; }
+  col.c-crit { width: 138px; }
+  col.c-out  { width: 140px; }
+  col.c-str  { width: 118px; }
+  col.c-sat  { width: 90px; }
+  col.c-dev  { width: 82px; }
+  col.c-bad  { width: 78px; }
+  col.c-sc   { width: 46px; }
+
+  thead th {
+    background: var(--navy); color: #fff; font-size: 6.8px; font-weight: 600;
+    letter-spacing: 0.7px; text-transform: uppercase; padding: 5px 6px;
+    text-align: left; border: 1px solid rgba(255,255,255,0.08);
+  }
+  thead th.sc-h { text-align: center; }
+
+  .ch td { background: var(--blue); color: #fff; font-weight: 700; font-size: 7.5px; padding: 4px 6px; border: 1px solid rgba(255,255,255,0.12); }
+  .ch .gb { display: inline-block; background: var(--gold); color: var(--navy); font-size: 6px; font-weight: 700; padding: 1px 5px; border-radius: 2px; margin-left: 5px; vertical-align: middle; }
+
+  .sr td { padding: 4px 6px; border: 1px solid var(--border); vertical-align: top; }
+  .sr:nth-child(odd) td  { background: #fff; }
+  .sr:nth-child(even) td { background: var(--alt); }
+
+  .sn { font-weight: 600; color: var(--navy); font-size: 7.3px; }
+  .sp { font-size: 6.2px; color: var(--mid); margin-top: 1px; }
+
+  .out { color: var(--g-out); font-weight: 600; }
+  .str { color: var(--g-str); font-weight: 600; }
+  .sat { color: var(--g-sat); font-weight: 600; }
+  .dev { color: var(--g-dev); font-weight: 600; }
+  .bad { color: var(--g-bad); font-weight: 600; }
+
+  .sc { text-align: center; vertical-align: middle !important; }
+  .sb { display: inline-block; width: 30px; height: 18px; border: 1.5px solid #4A90E2; border-radius: 3px; background: var(--pale); }
+  .sc-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .sc-max { font-size: 5.8px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+
+  .tot td { background: var(--navy); color: #fff; font-weight: 700; font-size: 9px; padding: 6px 7px; border: 1px solid rgba(255,255,255,0.08); }
+  .tot .sb { border-color: var(--gold); background: rgba(201,168,76,0.12); width: 34px; height: 20px; }
+
+  /* BOTTOM ROW - columnar */
+  .bottom-row { display: flex; gap: 7px; margin-top: 8px; align-items: stretch; }
+  .panels { display: flex; flex-direction: column; gap: 5px; width: 220px; flex-shrink: 0; }
+  .bx { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .bx-h { background: var(--light-blue); padding: 3px 8px; font-size: 6.8px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  .bx-b { padding: 4px 8px; }
+  .br { display: flex; justify-content: space-between; align-items: center; padding: 1.5px 0; border-bottom: 1px dotted var(--border); font-size: 6.8px; }
+  .br:last-child { border: none; }
+  .bn { font-weight: 600; }
+  .bv { color: var(--muted); }
+  .ti { display: flex; align-items: center; gap: 5px; padding: 2px 0; font-size: 6.8px; border-bottom: 1px dotted var(--border); }
+  .ti:last-child { border: none; }
+  .tn { background: var(--blue); color: #fff; width: 12px; height: 12px; border-radius: 50%; font-size: 6px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ai { display: flex; align-items: center; gap: 5px; padding: 1.5px 0; font-size: 6.8px; border-bottom: 1px dotted var(--border); }
+  .ai:last-child { border: none; }
+  .ad { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* COMMENTS */
+  .cmt { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; flex: 1; display: flex; flex-direction: column; }
+  .cmt-h { background: var(--light-blue); padding: 3px 9px; font-size: 6.8px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .cmt-b { padding: 5px 9px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .cl { border-bottom: 1px solid var(--border); height: 16px; flex-shrink: 0; }
+
+  /* FOOTER */
+  .ftr { background: var(--navy); padding: 5px 26px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+  .ft { font-size: 6px; color: rgba(255,255,255,0.38); letter-spacing: 0.4px; }
+  .fp { font-size: 6px; color: var(--gold); font-weight: 600; letter-spacing: 0.8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <h1>Students Expo — <em>Innovation Challenge</em></h1>
+        <div class="hdr-sub">Judge Scoring Sheet &nbsp;·&nbsp; Section A: Evaluation Panel Use Only</div>
+      </div>
+      <div class="badge">100 Points Total</div>
+    </div>
+    <div class="hdr-fields">
+      <div class="field"><div class="field-lbl">Project Name</div><div class="field-line"></div></div>
+      <div class="field"><div class="field-lbl">Team</div><div class="field-line"></div></div>
+      <div class="field"><div class="field-lbl">Judge Name</div><div class="field-line"></div></div>
+      <div class="field" style="max-width:75px"><div class="field-lbl">Date</div><div class="field-line"></div></div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="strip-item"><div class="strip-pts">15</div><div class="strip-lbl">Contextualization &amp;<br>Problem Definition</div></div>
+    <div class="strip-item"><div class="strip-pts">20</div><div class="strip-lbl">Innovation &amp;<br>Creativity</div></div>
+    <div class="strip-item"><div class="strip-pts">25</div><div class="strip-lbl">Technical Depth &amp;<br>Execution</div></div>
+    <div class="strip-item"><div class="strip-pts">15</div><div class="strip-lbl">Social Relevance &amp;<br>Impact</div></div>
+    <div class="strip-item"><div class="strip-pts">10</div><div class="strip-lbl">Feasibility &amp;<br>Sustainability</div></div>
+    <div class="strip-item"><div class="strip-pts">10</div><div class="strip-lbl">Industry<br>Fit</div></div>
+    <div class="strip-item"><div class="strip-pts">5</div><div class="strip-lbl">Presentation &amp;<br>Communication</div></div>
+  </div>
+
+  <div class="legend">
+    <span class="legend-title">Key →</span>
+    <span class="lg"><span class="lg-dot" style="background:#1B6B3A"></span><span class="out">Outstanding</span></span>
+    <span class="lg"><span class="lg-dot" style="background:#1A5A9A"></span><span class="str">Strong</span></span>
+    <span class="lg"><span class="lg-dot" style="background:#7A5900"></span><span class="sat">Satisfactory</span></span>
+    <span class="lg"><span class="lg-dot" style="background:#8A3A0A"></span><span class="dev">Developing</span></span>
+    <span class="lg"><span class="lg-dot" style="background:#8A0A0A"></span><span class="bad">Inadequate</span></span>
+    <span style="margin-left:auto; color:var(--muted); font-size:6.5px; font-style:italic;">* Adjusted point ranges for 15-pt criteria</span>
+  </div>
+
+  <div class="wrap">
+  <table>
+    <colgroup>
+      <col class="c-crit"><col class="c-out"><col class="c-str">
+      <col class="c-sat"><col class="c-dev"><col class="c-bad"><col class="c-sc">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Criterion / Sub-criterion</th>
+        <th style="color:#fff;">● Outstanding</th>
+        <th style="color:#fff;">● Strong</th>
+        <th style="color:#fff;">● Satisfactory</th>
+        <th style="color:#fff;">● Developing</th>
+        <th style="color:#fff;">● Inadequate</th>
+        <th class="sc-h">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="ch"><td colspan="7">1. CONTEXTUALIZATION &amp; PROBLEM DEFINITION <span class="gb">15 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">1.1 Problem ID &amp; Relevance</div><div class="sp">Max 7 pts</div></td>
+        <td><span class="out">6–7:</span> Real data cited; primary user research; compelling evidence of impact</td>
+        <td><span class="str">4–5:</span> Relevant problem; good evidence; stakeholders understood</td>
+        <td><span class="sat">3:</span> Problem stated; limited depth</td>
+        <td><span class="dev">2:</span> Vague; minimal research</td>
+        <td><span class="bad">0–1:</span> No clear problem</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 7 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">1.2 Context &amp; Background Research</div><div class="sp">Max 8 pts</div></td>
+        <td><span class="out">7–8:</span> Literature reviewed; existing solutions benchmarked; gap clearly identified</td>
+        <td><span class="str">5–6:</span> Good research; aware of existing approaches &amp; context</td>
+        <td><span class="sat">3–4:</span> Basic research; some awareness</td>
+        <td><span class="dev">2:</span> Superficial understanding</td>
+        <td><span class="bad">0–1:</span> No research done</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 8 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">2. INNOVATION &amp; CREATIVITY <span class="gb">20 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">2.1 Novelty of Approach</div><div class="sp">Max 10 pts</div></td>
+        <td><span class="out">9–10:</span> Highly original; novel tech/method; challenges existing norms</td>
+        <td><span class="str">7–8:</span> Fresh perspective; creative combination of ideas</td>
+        <td><span class="sat">5–6:</span> Incremental improvement; some creativity</td>
+        <td><span class="dev">3–4:</span> Mostly derivative work</td>
+        <td><span class="bad">0–2:</span> Copy of existing solutions</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 10 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">2.2 Originality of Thinking</div><div class="sp">Max 10 pts</div></td>
+        <td><span class="out">9–10:</span> Paradigm shift; interdisciplinary synthesis; challenges assumptions</td>
+        <td><span class="str">7–8:</span> Original thought; cross-domain integration</td>
+        <td><span class="sat">5–6:</span> Some original ideas; mostly conventional</td>
+        <td><span class="dev">3–4:</span> Limited originality</td>
+        <td><span class="bad">0–2:</span> Entirely imitative</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 10 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">3. TECHNICAL DEPTH &amp; EXECUTION <span class="gb">25 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">3.1 Technical Complexity &amp; Rigor</div><div class="sp">Max 10 pts</div></td>
+        <td><span class="out">9–10:</span> Advanced algorithms/engineering; mastery of tech stack; sound architecture</td>
+        <td><span class="str">7–8:</span> Solid implementation; good grasp of principles</td>
+        <td><span class="sat">5–6:</span> Adequate; basic understanding only</td>
+        <td><span class="dev">3–4:</span> Oversimplified; weak</td>
+        <td><span class="bad">0–2:</span> Flawed or minimal technical content</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 10 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">3.2 Implementation &amp; Functionality</div><div class="sp">Max 8 pts</div></td>
+        <td><span class="out">7–8:</span> Fully functional; clean; error handling; scalability considered</td>
+        <td><span class="str">5–6:</span> Working prototype; most features functional; minor issues</td>
+        <td><span class="sat">3–4:</span> Basic function; significant bugs/gaps</td>
+        <td><span class="dev">2:</span> Barely working</td>
+        <td><span class="bad">0–1:</span> Non-functional</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 8 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">3.3 Testing, Validation &amp; Iteration</div><div class="sp">Max 7 pts</div></td>
+        <td><span class="out">6–7:</span> Multi-method testing; clear iterative refinement; success metrics defined</td>
+        <td><span class="str">4–5:</span> Good testing; user feedback incorporated; some iteration</td>
+        <td><span class="sat">2–3:</span> Basic testing; limited iteration</td>
+        <td><span class="dev">1:</span> Minimal testing</td>
+        <td><span class="bad">0:</span> No testing</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 7 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">4. SOCIAL RELEVANCE &amp; IMPACT <span class="gb">15 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">4.1 Potential Social Impact</div><div class="sp">Max 8 pts</div></td>
+        <td><span class="out">7–8:</span> Critical need addressed; clear beneficiaries; systemic change considered</td>
+        <td><span class="str">5–6:</span> Clear benefit; identifiable outcomes; impact pathway understood</td>
+        <td><span class="sat">3–4:</span> Some benefit; limited scale or depth</td>
+        <td><span class="dev">2:</span> Vague benefit; unsupported claims</td>
+        <td><span class="bad">0–1:</span> No social relevance</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 8 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">4.2 Inclusivity, Accessibility &amp; Ethics</div><div class="sp">Max 7 pts</div></td>
+        <td><span class="out">6–7:</span> Designed for diverse users; strong accessibility; ethics fully addressed</td>
+        <td><span class="str">4–5:</span> Good inclusivity; ethics-aware; accessibility present</td>
+        <td><span class="sat">3:</span> Basic consideration; gaps remain</td>
+        <td><span class="dev">2:</span> Limited attention to ethics/inclusion</td>
+        <td><span class="bad">0–1:</span> Excludes groups; unaddressed risks</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 7 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">5. FEASIBILITY &amp; SUSTAINABILITY <span class="gb">10 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">5.1 Implementation Feasibility</div><div class="sp">Max 5 pts</div></td>
+        <td><span class="out">5:</span> Clear milestones; realistic resources; risk mitigation plan in place</td>
+        <td><span class="str">4:</span> Practical pathway; most requirements identified</td>
+        <td><span class="sat">3:</span> Basic plan; some gaps or assumptions</td>
+        <td><span class="dev">2:</span> Questionable; incomplete planning</td>
+        <td><span class="bad">0–1:</span> No plan; unfeasible</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 5 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">5.2 Sustainability &amp; Scalability</div><div class="sp">Max 5 pts</div></td>
+        <td><span class="out">5:</span> Business/sustainability model; scalability pathway; environmental impact considered</td>
+        <td><span class="str">4:</span> Good sustainability thinking; viable growth strategy</td>
+        <td><span class="sat">3:</span> Basic thinking; long-term gaps remain</td>
+        <td><span class="dev">2:</span> Unclear sustainability</td>
+        <td><span class="bad">0–1:</span> No sustainability plan</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 5 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">6. INDUSTRY-FIT <span class="gb">10 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">6.1 Market Relevance &amp; Industry Alignment</div><div class="sp">Max 5 pts</div></td>
+        <td><span class="out">5:</span> Real industry pain point solved; market trends understood; clear target sector</td>
+        <td><span class="str">4:</span> Good alignment; sector understood; identifiable fit</td>
+        <td><span class="sat">3:</span> Some industry awareness; surface-level</td>
+        <td><span class="dev">2:</span> Weak alignment; limited market understanding</td>
+        <td><span class="bad">0–1:</span> No industry connection</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 5 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">6.2 Commercialisation &amp; Deployment Potential</div><div class="sp">Max 5 pts</div></td>
+        <td><span class="out">5:</span> Credible go-to-market; deployable now; partners/revenue pathway identified</td>
+        <td><span class="str">4:</span> Commercial awareness; plausible deployment path</td>
+        <td><span class="sat">3:</span> Basic commercial thinking; vague path</td>
+        <td><span class="dev">2:</span> Minimal commercial thought</td>
+        <td><span class="bad">0–1:</span> No commercial strategy</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 5 pts</div></div></td>
+      </tr>
+
+      <tr class="ch"><td colspan="7">7. PRESENTATION &amp; COMMUNICATION <span class="gb">5 PTS</span></td></tr>
+      <tr class="sr">
+        <td><div class="sn">7.1 Clarity &amp; Organization</div><div class="sp">Max 3 pts</div></td>
+        <td><span class="out">3:</span> Exceptionally clear; well-structured; excellent visual aids &amp; demo</td>
+        <td><span class="str">2:</span> Clear; good organization &amp; communication</td>
+        <td><span class="sat">1:</span> Adequate; some confusion</td>
+        <td colspan="2"><span class="bad">0:</span> Unclear; poorly organized</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 3 pts</div></div></td>
+      </tr>
+      <tr class="sr">
+        <td><div class="sn">7.2 Team Knowledge &amp; Q&amp;A</div><div class="sp">Max 2 pts</div></td>
+        <td><span class="out">2:</span> Deep knowledge across team; honest about limitations; thoughtful answers</td>
+        <td><span class="str">1:</span> Good knowledge; satisfactory answers to most questions</td>
+        <td colspan="3"><span class="bad">0:</span> Limited understanding; poor responses to questions</td>
+        <td class="sc"><div class="sc-wrap"><div class="sb"></div><div class="sc-max">Max 2 pts</div></div></td>
+      </tr>
+
+      <tr class="tot">
+        <td colspan="5" style="font-size:9.5px; letter-spacing:0.8px;">TOTAL SCORE</td>
+        <td style="text-align:right; font-size:7.5px; color:rgba(255,255,255,0.45); padding-right:8px;">OUT OF 100</td>
+        <td class="sc"><div class="sb"></div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-row">
+    <div class="panels">
+      <div class="bx">
+        <div class="bx-h">Performance Scale</div>
+        <div class="bx-b">
+          <div class="br"><span class="bn out">Outstanding</span><span class="bv">90–100 pts</span></div>
+          <div class="br"><span class="bn str">Strong</span><span class="bv">70–89 pts</span></div>
+          <div class="br"><span class="bn sat">Satisfactory</span><span class="bv">50–69 pts</span></div>
+          <div class="br"><span class="bn dev">Developing</span><span class="bv">30–49 pts</span></div>
+          <div class="br"><span class="bn bad">Inadequate</span><span class="bv">0–29 pts</span></div>
+        </div>
+      </div>
+      <div class="bx">
+        <div class="bx-h">Tie-Break Priority</div>
+        <div class="bx-b">
+          <div class="ti"><div class="tn">1</div><span>Technical Depth &amp; Execution (25 pts)</span></div>
+          <div class="ti"><div class="tn">2</div><span>Social Relevance &amp; Impact (15 pts)</span></div>
+          <div class="ti"><div class="tn">3</div><span>Innovation &amp; Creativity (20 pts)</span></div>
+        </div>
+      </div>
+      <div class="bx">
+        <div class="bx-h">Award Categories</div>
+        <div class="bx-b">
+          <div class="ai"><div class="ad"></div><span>Best Overall Project</span></div>
+          <div class="ai"><div class="ad"></div><span>Best Social Impact (Criterion 4)</span></div>
+          <div class="ai"><div class="ad"></div><span>Most Innovative (Criterion 2)</span></div>
+          <div class="ai"><div class="ad"></div><span>Best Technical Implementation</span></div>
+          <div class="ai"><div class="ad"></div><span>People's Choice (Audience Vote)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cmt">
+      <div class="cmt-h">Feedback / Comments for the Team</div>
+      <div class="cmt-b">
+        <div class="cl"></div>
+        <div class="cl"></div>
+        <div class="cl"></div>
+        <div class="cl"></div>
+        <div class="cl"></div>
+        <div class="cl"></div>
+        <div class="cl"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="ftr">
+    <div class="ft">Students Expo Innovation Challenge &nbsp;·&nbsp; Section A: For Evaluation Panel Use Only</div>
+    <div class="fp">100 POINTS TOTAL</div>
+  </div>
+
+</div>
+</body>
+</html>
